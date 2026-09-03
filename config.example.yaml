@@ -1,0 +1,43 @@
+# ---------------------------------------------------------------------------
+# Structured product performance chart
+# Edit this file, then:  python run.py config.example.yaml --source demo
+# ---------------------------------------------------------------------------
+
+source: demo            # demo | lseg | csv
+# source_path: ./prices # folder of <RIC>.csv, or one wide CSV, when source: csv
+
+underlyings:
+  - {ric: ".STOXX50E", name: "EURO STOXX 50"}
+  - {ric: ".SPX",      name: "S&P 500"}
+  - {ric: ".N225",     name: "Nikkei 225"}
+
+start: 2023-09-01
+end: 2026-09-01
+fixing_date: 2023-09-01   # strike date: every underlying = 100 here
+
+scale: rebased            # rebased | absolute
+calendar: union           # union | weekdays | intersection
+show_worst_of: true
+worst_of_label: "Worst-of basket"
+
+levels:
+  - {label: "Autocall trigger 100%", pct: 1.00, color: green, kind: autocall}
+  - {label: "Coupon barrier 70%",    pct: 0.70, color: gold,  kind: coupon}
+  - {label: "Capital barrier 60%",   pct: 0.60, color: red,   kind: capital}
+  # - {label: "Step-down 90%",       pct: 0.90, color: purple, enabled: false}
+
+autocall_dates:
+  - 2024-09-02
+  - 2025-09-01
+  - 2026-09-01
+
+annotate_last: true
+levels_in_legend: false   # false = labelled inline at the right of each line
+mark_fixing: true
+
+texts:
+  title: "Worst-of basket - historical performance"
+  subtitle: "Daily closing prices, rebased to 100 at the initial fixing date"
+  source: "Source: LSEG / Refinitiv"
+  footnote: ""            # blank = generated from the source and the period
+  disclaimer: "Marketing communication. PLACEHOLDER - replace with your compliance-approved wording."
